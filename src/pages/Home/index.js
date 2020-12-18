@@ -182,7 +182,7 @@ const Home = () => {
             id="price"
             label="Valor da compra"
             variant="outlined"
-            helperText="Ex. 1.000,00"
+            helperText="Ex. 100000"
             value={price}
             onChange={handlePrice}
             InputProps={{
