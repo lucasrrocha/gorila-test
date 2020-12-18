@@ -1,6 +1,7 @@
-import firebase from 'firebase';
+import firebase from 'firebase/app';
+import 'firebase';
+import 'firebase/auth';
 
-// Your web app's Firebase configuration
 var firebaseConfig = {
   apiKey: 'AIzaSyCmIFu-adjH0_hK8YsIDyATgP2GBQ6LRy4',
   authDomain: 'gorila-test-377d8.firebaseapp.com',
@@ -9,7 +10,7 @@ var firebaseConfig = {
   messagingSenderId: '344521742302',
   appId: '1:344521742302:web:dcfbcbbc2033b849152f4f'
 };
-// Initialize Firebase
-const firebase = firebase.initializeApp(firebaseConfig);
 
-export default firebase;
+const fire = firebase.initializeApp(firebaseConfig);
+
+export default fire;

@@ -1,14 +1,18 @@
 import React from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Login from './pages/Login';
 import Home from './pages/Home';
+import { AuthProvider } from './Auth';
+import PrivateRoute from './PrivateRoute';
 
 function Routes() {
   return (
-    <BrowserRouter>
-      <Route path="/" exact component={Login} />
-      <Route path="/home" component={Home} />
-    </BrowserRouter>
+    <AuthProvider>
+      <Router>
+        <Route path="/" exact component={Login} />
+        <PrivateRoute path="/home" component={Home} />
+      </Router>
+    </AuthProvider>
   );
 }
 
