@@ -272,17 +272,19 @@ const Home = () => {
           </S.MyCardContainer>
         </S.MyContainerzao>
       )}
-      <div style={{ marginTop: 30 }}>
-        <Chart
-          style={{ display: 'flex', alignItems: 'center' }}
-          width={'1000px'}
-          height={'300px'}
-          loader={<div>Loading Chart</div>}
-          chartType="PieChart"
-          data={data}
-          options={options}
-        />
-      </div>
+      {investments && investments.length > 0 && (
+        <div style={{ marginTop: 30 }}>
+          <Chart
+            style={{ display: 'flex', alignItems: 'center' }}
+            width={'1000px'}
+            height={'300px'}
+            loader={<div>Loading Chart</div>}
+            chartType="PieChart"
+            data={data}
+            options={options}
+          />
+        </div>
+      )}
     </S.MyContainer>
   );
 };
