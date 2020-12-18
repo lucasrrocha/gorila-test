@@ -17,6 +17,11 @@ const Login = props => {
 
   const { currentUser } = useContext(AuthContext);
 
+  const clearInput = () => {
+    setEmail('');
+    setPassword('');
+  };
+
   const clearErrors = () => {
     setEmailError('');
     setPasswordError('');
@@ -24,6 +29,7 @@ const Login = props => {
 
   const handleLogin = () => {
     clearErrors();
+    clearInput();
     fire
       .auth()
       .signInWithEmailAndPassword(email, password)
