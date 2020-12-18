@@ -23,8 +23,6 @@ const Home = () => {
   const [investments, setInvestments] = useState([]);
   const [open, setOpen] = useState(false);
   const [valid, setValid] = useState(true);
-  const [totalFixa, setTotalFixa] = useState();
-  const [totalVariavel, setTotalVariavel] = useState();
   const [options, setOptions] = useState({
     title: 'Resumo da Carteira',
     is3D: true,
