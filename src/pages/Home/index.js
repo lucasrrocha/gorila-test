@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Redirect } from 'react-router-dom';
 import DateFnsUtils from '@date-io/date-fns';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import { MenuItem } from '@material-ui/core';
@@ -24,7 +23,8 @@ const Home = () => {
   const [investments, setInvestments] = useState([]);
   const [open, setOpen] = useState(false);
   const [valid, setValid] = useState(true);
-  // const [totalFixa, setTotalFixa] = useState(0);
+  const [totalFixa, setTotalFixa] = useState();
+  const [totalVariavel, setTotalVariavel] = useState();
   const [options, setOptions] = useState({
     title: 'Resumo da Carteira',
     is3D: true,
@@ -33,23 +33,41 @@ const Home = () => {
       alignment: 'center'
     }
   });
-  const [data, setData] = useState([
-    ['Tipo', '%'],
-    ['Renda Fixa', 80],
-    ['Renda Variavel', 80]
-  ]);
-
-  // const test = 12;
+  const [data, setData] = useState();
 
   useEffect(() => {
     fetchData();
+    loadChart();
   }, []);
+
+  useEffect(() => {
+    loadChart();
+  }, [investments]);
 
   useEffect(() => {
     if (type && price && selectedDate) {
       setValid(false);
     }
   }, [type, price, selectedDate]);
+
+  const loadChart = async () => {
+    const db = firebase.firestore();
+    const fixa = await db
+      .collection('investments')
+      .where('type', '==', 'RENDA_FIXA')
+      .get();
+
+    const variavel = await db
+      .collection('investments')
+      .where('type', '==', 'RENDA_VARIAVEL')
+      .get();
+
+    setData([
+      ['Tipo', '%'],
+      ['Renda Fixa', fixa.docs.length],
+      ['Renda Variavel', variavel.docs.length]
+    ]);
+  };
 
   const fetchData = async () => {
     const db = firebase.firestore();
@@ -62,7 +80,6 @@ const Home = () => {
 
   const handleLogout = () => {
     fire.auth().signOut();
-    return <Redirect to={'/'} />;
   };
 
   const cleanInputs = () => {
@@ -83,13 +100,6 @@ const Home = () => {
   const handlePrice = event => {
     setPrice(event.target.value);
   };
-
-  // const onUpdate = () => {
-  //   const db = firebase.firestore();
-  //   db.collection('investments')
-  //     .doc('0')
-  //     .set({ ...investments, type });
-  // };
 
   const onDelete = id => {
     const db = firebase.firestore();
@@ -173,10 +183,8 @@ const Home = () => {
             label="Valor da compra"
             variant="outlined"
             helperText="Ex. 1.000,00"
-            type="number"
             value={price}
             onChange={handlePrice}
-            // onKeyUp={handleKeyUp}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">R$</InputAdornment>
