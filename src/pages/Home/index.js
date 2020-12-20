@@ -60,11 +60,27 @@ const Home = () => {
       .where('type', '==', 'RENDA_VARIAVEL')
       .get();
 
+    let totalFixa;
+    let totalVariavel;
+
+    totalFixa = handleTotalChart(fixa.docs, totalFixa);
+    totalVariavel = handleTotalChart(variavel.docs, totalVariavel);
+
     setData([
       ['Tipo', '%'],
-      ['Renda Fixa', fixa.docs.length],
-      ['Renda Variavel', variavel.docs.length]
+      ['Renda Fixa', totalFixa],
+      ['Renda Variavel', totalVariavel]
     ]);
+  };
+
+  const handleTotalChart = (value, total) => {
+    if (value.length > 0) {
+      total = value.map(
+        doc => +doc.data().value.replace(/(\d)(\d{2})$/, '$1.$2')
+      );
+      total = total.reduce((acc, cur) => acc + cur);
+    }
+    return total;
   };
 
   const fetchData = async () => {
