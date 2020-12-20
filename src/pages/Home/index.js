@@ -128,7 +128,7 @@ const Home = () => {
     db.collection('investments').add({
       type: type,
       date: selectedDate,
-      value: price
+      value: price.replace(/\D/g, '')
     });
     setOpen(true);
     cleanInputs();
